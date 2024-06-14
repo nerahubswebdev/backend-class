@@ -12,7 +12,7 @@ const newPost = async (req, res) => {
       return;
     }
 
-    const post = await Post.create(req.body).exec();
+    const post = await Post.create(req.body);
 
     if (post) {
       res.status(201).json({
