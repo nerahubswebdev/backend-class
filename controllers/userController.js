@@ -106,7 +106,7 @@ const login = async (req, res) => {
 
     const refreshToken = jwt.sign(
       {
-        access1: userexists?._id,
+        access2: userexists?._id,
       },
       process.env.refresh_secret,
       {
@@ -117,18 +117,18 @@ const login = async (req, res) => {
     // console.log("the access token => ", accessToken);
 
     //the cookies
-    res.cookie("oboyhowfar", accessToken, {
-      httpOnly: true,
-      secure: true,
+    res.cookie("access", accessToken, {
+      //httpOnly: true,
+      // secure: true,
       sameSite: "none",
-      maxAge: 1 * 60 * 1000,
+      maxAge: 30 * 1000,
     });
 
-    res.cookie("ideohhh", refreshToken, {
-      httpOnly: true,
-      secure: true,
+    res.cookie("refresh", refreshToken, {
+      //httpOnly: true,
+      // secure: true,
       sameSite: "none",
-      maxAge: 5 * 24 * 60 * 60 * 1000,
+      maxAge: 1 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -143,4 +143,21 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).exec();
+
+    res.status(200).json({
+      success: true,
+      message: "Users fetched",
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export { register, login, getUsers };
