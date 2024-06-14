@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import UserRoute from "./routes/userRoutes.js";
+import PostRoute from "./routes/postRoute.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.get("/", function (req, res) {
 
 // our other rouths in the server
 app.use("/user", UserRoute);
+app.use("/post", PostRoute);
 
 // connecting the database to our server
 mongoose

@@ -160,4 +160,30 @@ const getUsers = async (req, res) => {
   }
 };
 
-export { register, login, getUsers };
+const getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id).exec();
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User fetched",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export { register, login, getUsers, getUser };
