@@ -2,9 +2,11 @@ import Post from "../models/post.model.js";
 
 const newPost = async (req, res) => {
   try {
-    const { author_name, category, title, content, image } = req.body;
+    const { category, title, content, image } = req.body;
 
-    if (!author_name || !category || !title || !content || !image) {
+    const userdetails = req.user;
+
+    if (!category || !title || !content || !image) {
       res.status(400).json({
         success: false,
         message: "All required fields needed",
@@ -12,7 +14,15 @@ const newPost = async (req, res) => {
       return;
     }
 
-    const post = await Post.create(req.body);
+    const post = await Post.create({
+      author_name: userdetails?.name,
+      author_id: userdetails?._id,
+      author_image: userdetails?.image,
+      category,
+      title,
+      content,
+      image,
+    });
 
     if (post) {
       res.status(201).json({

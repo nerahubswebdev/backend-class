@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema(
   {
+    author_id: {
+      type: String,
+      required: [true, "Please i need the userid"],
+    },
     author_name: {
       type: String,
       required: [true, "Please i need the name"],
