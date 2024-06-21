@@ -118,15 +118,15 @@ const login = async (req, res) => {
 
     //the cookies
     res.cookie("access", accessToken, {
-      //httpOnly: true,
-      // secure: true,
+      httpOnly: true,
+      secure: true,
       sameSite: "none",
       maxAge: 30 * 1000,
     });
 
     res.cookie("refresh", refreshToken, {
-      //httpOnly: true,
-      // secure: true,
+      httpOnly: true,
+      secure: true,
       sameSite: "none",
       maxAge: 1 * 60 * 1000,
     });
