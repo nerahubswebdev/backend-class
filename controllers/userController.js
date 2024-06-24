@@ -186,4 +186,30 @@ const getUser = async (req, res) => {
   }
 };
 
-export { register, login, getUsers, getUser };
+const validateUser = async (req, res) => {
+  const userdetails = req.user;
+
+  if (!userdetails) {
+    res.status(400).json({
+      valid: false,
+      message: "access denied",
+    });
+    return;
+  }
+
+  const userdata = {
+    _id: userdetails._id,
+    name: userdetails.name,
+    email: userdetails.email,
+    bio: userdetails.bio,
+    image: userdetails.image,
+  };
+
+  res.status(200).json({
+    valid: true,
+    message: "access granted",
+    userDetails: userdata,
+  });
+};
+
+export { register, login, getUsers, getUser, validateUser };

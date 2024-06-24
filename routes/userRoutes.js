@@ -4,6 +4,7 @@ import {
   getUsers,
   login,
   register,
+  validateUser,
 } from "../controllers/userController.js";
 import { checkAndRenewToken } from "../middleware/validate-token.js";
 
@@ -13,5 +14,6 @@ router.post("/create", register);
 router.post("/login", login);
 router.get("/all-users", checkAndRenewToken, getUsers);
 router.get("/single-user/:id", checkAndRenewToken, getUser);
+router.get("/validate-user", checkAndRenewToken, validateUser);
 
 export default router;
