@@ -58,9 +58,9 @@ export const checkAndRenewToken = (req, res, next) => {
 
             res.cookie("access", accessToken, {
               httpOnly: true,
-              secure: true,
+              //secure: true,
               sameSite: "none",
-              maxAge: 1 * 60 * 1000,
+              maxAge: 20 * 60 * 60 * 1000,
             });
 
             // assignment to look up what the destructuring means
@@ -97,5 +97,29 @@ export const checkAndRenewToken = (req, res, next) => {
         next();
       }
     });
+  }
+};
+
+export const isAdmin = (req, res, next) => {
+  const ifReqUserExist = req.user;
+  if (!ifReqUserExist) {
+    res.status(400).json({
+      success: false,
+      message: "Not an Admin!!!",
+    });
+    return;
+  }
+
+  console.log("Req.user details =", ifReqUserExist);
+
+  // checking if user is an admin
+  if (!ifReqUserExist.isAdmin) {
+    res.status(403).json({
+      success: false,
+      message: "Not Authorized!",
+    });
+    return;
+  } else {
+    next();
   }
 };

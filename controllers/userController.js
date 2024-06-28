@@ -119,16 +119,16 @@ const login = async (req, res) => {
     //the cookies
     res.cookie("access", accessToken, {
       httpOnly: true,
-      secure: true,
+      //secure: true,
       sameSite: "none",
-      maxAge: 30 * 1000,
+      maxAge: 20 * 60 * 1000,
     });
 
     res.cookie("refresh", refreshToken, {
       httpOnly: true,
-      secure: true,
+      //secure: true,
       sameSite: "none",
-      maxAge: 1 * 60 * 1000,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -189,16 +189,16 @@ const getUser = async (req, res) => {
 const validateUser = async (req, res) => {
   const userdetails = req.user;
 
-  if (!userdetails) {
-    res.status(400).json({
-      valid: false,
-      message: "access denied",
-    });
-    return;
-  }
+  // if (!userdetails) {
+  //   res.status(400).json({
+  //     valid: false,
+  //     message: "access denied",
+  //   });
+  //   return;
+  // }
 
   const userdata = {
-    _id: userdetails._id,
+    id: userdetails._id,
     name: userdetails.name,
     email: userdetails.email,
     bio: userdetails.bio,
@@ -212,4 +212,30 @@ const validateUser = async (req, res) => {
   });
 };
 
-export { register, login, getUsers, getUser, validateUser };
+const logout = async (req, res) => {
+  try {
+    // we want to clear all the cookies
+    res.clearCookie("access", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+    res.clearCookie("refresh", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logeed out",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Not Logeed out",
+    });
+  }
+};
+
+export { register, login, getUsers, getUser, validateUser, logout };

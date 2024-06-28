@@ -30,6 +30,10 @@ const PostSchema = mongoose.Schema(
       type: String,
       required: [true, "Please i need the image"],
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
