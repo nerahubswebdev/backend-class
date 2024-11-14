@@ -60,7 +60,7 @@ export const checkAndRenewToken = (req, res, next) => {
               httpOnly: true,
               secure: true,
               sameSite: "none",
-              maxAge: 20 * 60 * 60 * 1000,
+              maxAge: 20 * 1000,
             });
 
             // assignment to look up what the destructuring means
